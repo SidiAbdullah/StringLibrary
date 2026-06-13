@@ -1,229 +1,314 @@
 #pragma once
+
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
-class clsString {
-
+class clsString
+{
 private:
-    string _value;
-    // used functions
-    static char convertCharCase(char ch)
+
+    string _stringValue;
+
+    // Helper Functions
+
+    static char ToggleCharacterCase(char Character)
     {
-        if (int(ch) >= 97 && int(ch) <= 122)
+        if (int(Character) >= 97 && int(Character) <= 122)
         {
-            return char(int(ch) - 32);
+            return char(int(Character) - 32);
         }
-        else if (int(ch) >= 65 && int(ch) <= 90)
+        else if (int(Character) >= 65 && int(Character) <= 90)
         {
-            return char(int(ch) + 32);
+            return char(int(Character) + 32);
         }
-        return ch;
+
+        return Character;
     }
-    static char convertToLower(char ch) {
-        if (int(ch) >= 65 && int(ch) <= 90)
-        {
-            return char(int(ch) + 32);
-        }
-        return ch;
-    }
-    static char convertToUper(char ch) {
-        if (int(ch) >= 97 && int(ch) <= 122)
-        {
-            return char(int(ch) - 32);
-        }
-        return ch;
-    }
-    static bool isVowel(char ch)
+
+    static char ToLowerCharacter(char Character)
     {
-        ch = convertToLower(ch);
-        return (ch == 'a' || ch == 'e' || ch == 'u' || ch == 'i' || ch == 'o');
+        if (int(Character) >= 65 && int(Character) <= 90)
+        {
+            return char(int(Character) + 32);
+        }
+
+        return Character;
+    }
+
+    static char ToUpperCharacter(char Character)
+    {
+        if (int(Character) >= 97 && int(Character) <= 122)
+        {
+            return char(int(Character) - 32);
+        }
+
+        return Character;
+    }
+
+    static bool IsVowel(char Character)
+    {
+        Character = ToLowerCharacter(Character);
+
+        return (
+            Character == 'a' ||
+            Character == 'e' ||
+            Character == 'i' ||
+            Character == 'o' ||
+            Character == 'u'
+            );
     }
 
 public:
-    clsString() {
-        _value = "";
-    }
-    clsString(string s) {
-        _value = s;
-    }
-    void setValue(string s) {
-        _value = s;
-    }
-    string getValue() {
-        return _value;
-    }
-    
-    // 1. for static versions
-    // triming (deleting white spaces ' ')
-    static string cleanSpaces(string s)
+
+    // Constructors
+
+    clsString()
     {
-        for (int i = 0; i < s.length() - 1;)
+        _stringValue = "";
+    }
+
+    clsString(string Text)
+    {
+        _stringValue = Text;
+    }
+
+    // Setter / Getter
+
+    void SetValue(string Text)
+    {
+        _stringValue = Text;
+    }
+
+    string GetValue()
+    {
+        return _stringValue;
+    }
+
+    // =====================================================
+    // Static Trimming Functions
+    // =====================================================
+
+    static string TrimAndNormalizeSpaces(string Text)
+    {
+        for (int Index = 0; Index < Text.length() - 1;)
         {
-            if (s[i] == ' ' && s[i + 1] == ' ')
-                s.erase(i, 1);
+            if (Text[Index] == ' ' && Text[Index + 1] == ' ')
+                Text.erase(Index, 1);
             else
-                i++;
+                Index++;
         }
-        if (!s.empty() && s.front() == ' ')
-            s.erase(0, 1);
-        if (!s.empty() && s.back() == ' ')
-            s.pop_back();
-        return s;
+
+        if (!Text.empty() && Text.front() == ' ')
+            Text.erase(0, 1);
+
+        if (!Text.empty() && Text.back() == ' ')
+            Text.pop_back();
+
+        return Text;
     }
-    static string trimLeft(string s)
+
+    static string TrimLeft(string Text)
     {
-        while (!s.empty() && s.front() == ' ')
+        while (!Text.empty() && Text.front() == ' ')
         {
-            s.erase(0, 1);
+            Text.erase(0, 1);
         }
-        return s;
+
+        return Text;
     }
-    static string trimRight(string s)
+
+    static string TrimRight(string Text)
     {
-        while (!s.empty() && s.back() == ' ')
+        while (!Text.empty() && Text.back() == ' ')
         {
-            s.pop_back();
+            Text.pop_back();
         }
-        return s;
+
+        return Text;
     }
-    
-    // counting
-    static short countWords(string s)
+
+    // =====================================================
+    // Static Counting Functions
+    // =====================================================
+
+    static short CountWords(string Text)
     {
-        cleanSpaces(s);
-        short counter = 0;
-        for (char& ch : s)
+        Text = TrimAndNormalizeSpaces(Text);
+
+        short WordCount = 0;
+
+        for (char& Character : Text)
         {
-            if (ch == ' ')
+            if (Character == ' ')
             {
-                ++counter;
+                ++WordCount;
             }
         }
-        return counter + 1;
+
+        return WordCount + 1;
     }
-    static short countSmallLetters(string str)
+
+    static short CountLowercaseLetters(string Text)
     {
-        short SmallCounter = 0;
-        for (char& ch : str)
+        short LowercaseCount = 0;
+
+        for (char& Character : Text)
         {
-            if (int(ch) >= 97 && int(ch) <= 122)
+            if (int(Character) >= 97 && int(Character) <= 122)
             {
-                ++SmallCounter;
+                ++LowercaseCount;
             }
         }
-        return SmallCounter;
+
+        return LowercaseCount;
     }
-    static short countCapitalLetters(string str)
+
+    static short CountUppercaseLetters(string Text)
     {
-        short capitalCounter = 0;
-        for (char& ch : str)
+        short UppercaseCount = 0;
+
+        for (char& Character : Text)
         {
-            if (int(ch) >= 65 && int(ch) <= 90)
+            if (int(Character) >= 65 && int(Character) <= 90)
             {
-                ++capitalCounter;
+                ++UppercaseCount;
             }
         }
-        return capitalCounter;
+
+        return UppercaseCount;
     }
-    static string convertCases(string str)
+
+    static string InvertCharacterCases(string Text)
     {
-        for (char &ch : str)
+        for (char& Character : Text)
         {
-            ch = convertCharCase(ch);
+            Character = ToggleCharacterCase(Character);
         }
-        return str;
+
+        return Text;
     }
-    static int countLetter(string str, char letter, bool justTheMatches = true)
+
+    static int CountCharacter(
+        string Text,
+        char Character,
+        bool ExactMatch = true)
     {
-        short counter = 0;
-        if (!justTheMatches)
+        short CharacterCount = 0;
+
+        if (!ExactMatch)
         {
-            for (char& ch : str)
+            for (char& CurrentCharacter : Text)
             {
-                if (ch == letter or letter == convertCharCase(ch))
+                if (
+                    CurrentCharacter == Character ||
+                    Character == ToggleCharacterCase(CurrentCharacter)
+                    )
                 {
-                    ++counter;
+                    ++CharacterCount;
                 }
             }
         }
         else
         {
-            for (char& ch : str)
+            for (char& CurrentCharacter : Text)
             {
-                if (ch == letter)
+                if (CurrentCharacter == Character)
                 {
-                    ++counter;
+                    ++CharacterCount;
                 }
             }
         }
-        return counter;
+
+        return CharacterCount;
     }
-    static short countVowels(string str)
+
+    static short CountVowels(string Text)
     {
-        short counter = 0;
-        for (char& ch : str)
+        short VowelCount = 0;
+
+        for (char& Character : Text)
         {
-            if (isVowel(ch))
+            if (IsVowel(Character))
             {
-                ++counter;
+                ++VowelCount;
             }
         }
-        return counter;
+
+        return VowelCount;
     }
-    
-    // converting
-    static string allToUpper(string str)
+
+    // =====================================================
+    // Static Conversion Functions
+    // =====================================================
+
+    static string ConvertToUpperCase(string Text)
     {
-        for (int i = 0; i < str.length(); i++)
+        for (int Index = 0; Index < Text.length(); Index++)
         {
-            if (int(str[i]) >= 97 && int(str[i]) <= 122)
+            if (int(Text[Index]) >= 97 && int(Text[Index]) <= 122)
             {
-                str[i] = char(int(str[i]) - 32);
+                Text[Index] = char(int(Text[Index]) - 32);
             }
         }
-        return str;
+
+        return Text;
     }
-    static string allToLower(string str)
+
+    static string ConvertToLowerCase(string Text)
     {
-        for (char& ch : str)
+        for (char& Character : Text)
         {
-            if (int(ch) >= 65 && int(ch) <= 90)
+            if (int(Character) >= 65 && int(Character) <= 90)
             {
-                ch = char(int(ch) + 32);
+                Character = char(int(Character) + 32);
             }
         }
-        return str;
+
+        return Text;
     }
-    
-    // printing
-    static void printVowels(string str)
+
+    // =====================================================
+    // Static Printing Functions
+    // =====================================================
+
+    static void PrintVowels(string Text)
     {
-        for (char& ch : str)
+        for (char& Character : Text)
         {
-            if (isVowel(ch))
+            if (IsVowel(Character))
             {
-                cout << "   " << ch;
+                cout << "   " << Character;
             }
         }
     }
-    static void printFirstLetters(string s)
+
+    static void PrintFirstLetterOfEachWord(string Text)
     {
-        cleanSpaces(s);
-        if (!s.empty())
-            cout << s[0] << '\n';
-        for (int i = 1; i < s.length() - 1; ++i)
-            if (s[i] == ' ')
-                cout << s[i + 1] << '\n';
-    }
-    static void printWords(string str)
-    {
-        cleanSpaces(str);
-        for (short i = 0; i < str.length(); i++)
+        Text = TrimAndNormalizeSpaces(Text);
+
+        if (!Text.empty())
+            cout << Text[0] << '\n';
+
+        for (int Index = 1; Index < Text.length() - 1; ++Index)
         {
-            if (str[i] != ' ')
+            if (Text[Index] == ' ')
             {
-                cout << str[i];
+                cout << Text[Index + 1] << '\n';
+            }
+        }
+    }
+
+    static void PrintWords(string Text)
+    {
+        Text = TrimAndNormalizeSpaces(Text);
+
+        for (short Index = 0; Index < Text.length(); Index++)
+        {
+            if (Text[Index] != ' ')
+            {
+                cout << Text[Index];
             }
             else
             {
@@ -231,135 +316,233 @@ public:
             }
         }
     }
-    
-    // spliting string words
-    static  vector<string> vSplit(string s, char seperator)
+
+    // =====================================================
+    // Static Split / Join Functions
+    // =====================================================
+
+    static vector<string> Split(
+        string Text,
+        char Separator = ' ')
     {
-        cleanSpaces(s);
-        s += seperator;
-        string word;
-        vector<string> v;
-        for (char& ch : s)
+        Text = TrimAndNormalizeSpaces(Text);
+
+        Text += Separator;
+
+        string CurrentWord;
+        vector<string> Words;
+
+        for (char& Character : Text)
         {
-            if (ch != seperator)
+            if (Character != Separator)
             {
-                word += ch;
+                CurrentWord += Character;
             }
-            else if (word != "")
+            else if (CurrentWord != "")
             {
-                v.push_back(word);
-                word = "";
+                Words.push_back(CurrentWord);
+                CurrentWord = "";
             }
         }
-        return v;
+
+        return Words;
     }
     
-    // joining string words
-    static string joinVectorWords(vector <string>& vStr, string seperator) {
-        string newStr;
-        for (string& str : vStr) {
-            if (str != vStr.back()) {
-                newStr += str + seperator;
-            }
-            else {
-                newStr += str;
-            }
-        }
-        return newStr;
-    }
+    static string JoinStrings(
+        vector<string>& Words,
+        string Separator)
+    {
+        string Result;
 
-
-
-    // 2. for non static versions
-    // counting
-    short countWords() {
-        return countWords(_value);
-    }
-    string convertCases()
-    {
-        return convertCases(_value);
-    }
-    short countSmallLetters()
-    {
-        return countSmallLetters(_value);
-    }
-    short countCapitalLetters()
-    {
-        return countCapitalLetters(_value);
-    }
-    short countLetter(char letter, bool justTheMatches = true)
-    {
-        return countLetter(_value, letter, justTheMatches);
-    }
-    short countVowels()
-    {
-        return countVowels(_value);
-    }
-
-    // converting
-    string allToUpper()
-    {
-        return allToUpper(_value);
-    }
-    string allToLower()
-    {
-        return allToLower(_value);
-    }
-    
-    // triming (deleting white spaces ' ')
-    string cleanSpaces()
-    {
-        for (int i = 0; i < _value.length() - 1;)
+        for (string& Word : Words)
         {
-            if (_value[i] == ' ' && _value[i + 1] == ' ')
-                _value.erase(i, 1);
+            if (Word != Words.back())
+            {
+                Result += Word + Separator;
+            }
             else
-                i++;
+            {
+                Result += Word;
+            }
         }
-        if (!_value.empty() && _value.front() == ' ')
-            _value.erase(0, 1);
-        if (!_value.empty() && _value.back() == ' ')
-            _value.pop_back();
-        return _value;
-    }
-    string trimLeft()
-    {
-        while (!_value.empty() && _value.front() == ' ')
-        {
-            _value.erase(0, 1);
-        }
-        return _value;
-    }
-    string trimRight()
-    {
-        while (!_value.empty() && _value.back() == ' ')
-        {
-            _value.pop_back();
-        }
-        return _value;
+
+        return Result;
     }
 
-    // printing
-    void printVowels()
+    // =====================================================
+    // Member Counting Functions
+    // =====================================================
+
+    short CountWords()
     {
-        printVowels(_value);
-    }
-    void printFirstLetters()
-    {
-        printFirstLetters(_value);
-    }
-    void printWords()
-    {
-        printWords(_value);
+        return CountWords(_stringValue);
     }
 
-    // spliting string words
-    vector<string> vSplit(char seperator)
+    short CountLowercaseLetters()
     {
-        return vSplit(_value, seperator);
+        return CountLowercaseLetters(_stringValue);
+    }
+
+    short CountUppercaseLetters()
+    {
+        return CountUppercaseLetters(_stringValue);
+    }
+
+    short CountCharacter(
+        char Character,
+        bool ExactMatch = true)
+    {
+        return CountCharacter(
+            _stringValue,
+            Character,
+            ExactMatch);
+    }
+
+    short CountVowels()
+    {
+        return CountVowels(_stringValue);
+    }
+
+    // =====================================================
+    // Member Conversion Functions
+    // =====================================================
+
+    string InvertCharacterCases()
+    {
+        return InvertCharacterCases(_stringValue);
+    }
+
+    string ConvertToUpperCase()
+    {
+        return ConvertToUpperCase(_stringValue);
+    }
+
+    string ConvertToLowerCase()
+    {
+        return ConvertToLowerCase(_stringValue);
+    }
+
+    // =====================================================
+    // Member Trimming Functions
+    // =====================================================
+
+    string TrimAndNormalizeSpaces()
+    {
+        for (int Index = 0; Index < _stringValue.length() - 1;)
+        {
+            if (_stringValue[Index] == ' ' &&
+                _stringValue[Index + 1] == ' ')
+            {
+                _stringValue.erase(Index, 1);
+            }
+            else
+            {
+                Index++;
+            }
+        }
+
+        if (!_stringValue.empty() &&
+            _stringValue.front() == ' ')
+        {
+            _stringValue.erase(0, 1);
+        }
+
+        if (!_stringValue.empty() &&
+            _stringValue.back() == ' ')
+        {
+            _stringValue.pop_back();
+        }
+
+        return _stringValue;
+    }
+
+    string TrimLeft()
+    {
+        while (!_stringValue.empty() &&
+            _stringValue.front() == ' ')
+        {
+            _stringValue.erase(0, 1);
+        }
+
+        return _stringValue;
+    }
+
+    string TrimRight()
+    {
+        while (!_stringValue.empty() &&
+            _stringValue.back() == ' ')
+        {
+            _stringValue.pop_back();
+        }
+
+        return _stringValue;
+    }
+
+    // =====================================================
+    // Member Printing Functions
+    // =====================================================
+
+    void PrintVowels()
+    {
+        PrintVowels(_stringValue);
+    }
+
+    void PrintFirstLetterOfEachWord()
+    {
+        PrintFirstLetterOfEachWord(_stringValue);
+    }
+
+    void PrintWords()
+    {
+        PrintWords(_stringValue);
+    }
+
+    // =====================================================
+    // Member Split Function
+    // =====================================================
+
+    vector<string> Split(char Separator)
+    {
+        return Split(_stringValue, Separator);
+    }
+
+    // =====================================================
+    // Replace Functions
+    // =====================================================
+
+    string ReplaceWord(
+        string Text,
+        string OldWord,
+        string NewWord,
+        bool CaseSensitive = true)
+    {
+        vector<string> Words = Split(Text, ' ');
+
+        for (string& Word : Words)
+        {
+            if (CaseSensitive)
+            {
+                if (Word == OldWord)
+                {
+                    Word = NewWord;
+                }
+            }
+            else
+            {
+                if (
+                    ConvertToLowerCase(Word) ==
+                    ConvertToLowerCase(OldWord)
+                    )
+                {
+                    Word = NewWord;
+                }
+            }
+        }
+
+        return JoinStrings(Words, " ");
     }
 };
+    // remove all punctuations
 
 
-// replace word with match case paramater
-// remove all punctuations
+    // string to record project
