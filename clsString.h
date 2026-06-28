@@ -60,6 +60,14 @@ private:
             );
     }
 
+    static bool IsPunctuation(char c) {
+        int x = (unsigned char)c;
+        return (x >= 33 && x <= 47) ||
+            (x >= 58 && x <= 64) ||
+            (x >= 91 && x <= 96) ||
+            (x >= 123 && x <= 126);
+    }
+
 public:
 
     // Constructors
@@ -86,9 +94,70 @@ public:
         return _stringValue;
     }
 
-    // =====================================================
-    // Static Trimming Functions
-    // =====================================================
+    // =========== (2) Read ===========
+
+    static void PrintVowels(string Text)
+    {
+        for (char& Character : Text)
+        {
+            if (IsVowel(Character))
+            {
+                cout << "   " << Character;
+            }
+        }
+    }
+
+    void PrintVowels()
+    {
+        PrintVowels(_stringValue);
+    }
+
+    static void PrintFirstLetterOfEachWord(string Text)
+    {
+        Text = TrimAndNormalizeSpaces(Text);
+
+        if (!Text.empty())
+            cout << Text[0] << '\n';
+
+        for (int Index = 1; Index < Text.length() - 1; ++Index)
+        {
+            if (Text[Index] == ' ')
+            {
+                cout << Text[Index + 1] << '\n';
+            }
+        }
+    }
+
+    void PrintFirstLetterOfEachWord()
+    {
+        PrintFirstLetterOfEachWord(_stringValue);
+    }
+
+    static void PrintWords(string Text)
+    {
+        Text = TrimAndNormalizeSpaces(Text);
+
+        for (short Index = 0; Index < Text.length(); Index++)
+        {
+            if (Text[Index] != ' ')
+            {
+                cout << Text[Index];
+            }
+            else
+            {
+                cout << endl;
+            }
+        }
+    }
+
+    void PrintWords()
+    {
+        PrintWords(_stringValue);
+    }
+
+    // =========== (3) Update ===========
+
+    // === Trimming Functions ====
 
     static string TrimAndNormalizeSpaces(string Text)
     {
@@ -109,6 +178,11 @@ public:
         return Text;
     }
 
+    string TrimAndNormalizeSpaces()
+    {
+        TrimAndNormalizeSpaces(_stringValue);
+    }
+
     static string TrimLeft(string Text)
     {
         while (!Text.empty() && Text.front() == ' ')
@@ -117,6 +191,11 @@ public:
         }
 
         return Text;
+    }
+
+    string TrimLeft()
+    {
+        TrimLeft(_stringValue);
     }
 
     static string TrimRight(string Text)
@@ -129,119 +208,12 @@ public:
         return Text;
     }
 
-    // =====================================================
-    // Static Counting Functions
-    // =====================================================
-
-    static short CountWords(string Text)
+    string TrimRight()
     {
-        Text = TrimAndNormalizeSpaces(Text);
-
-        short WordCount = 0;
-
-        for (char& Character : Text)
-        {
-            if (Character == ' ')
-            {
-                ++WordCount;
-            }
-        }
-
-        return WordCount + 1;
+        TrimRight(_stringValue);
     }
-
-    static short CountLowercaseLetters(string Text)
-    {
-        short LowercaseCount = 0;
-
-        for (char& Character : Text)
-        {
-            if (int(Character) >= 97 && int(Character) <= 122)
-            {
-                ++LowercaseCount;
-            }
-        }
-
-        return LowercaseCount;
-    }
-
-    static short CountUppercaseLetters(string Text)
-    {
-        short UppercaseCount = 0;
-
-        for (char& Character : Text)
-        {
-            if (int(Character) >= 65 && int(Character) <= 90)
-            {
-                ++UppercaseCount;
-            }
-        }
-
-        return UppercaseCount;
-    }
-
-    static string InvertCharacterCases(string Text)
-    {
-        for (char& Character : Text)
-        {
-            Character = ToggleCharacterCase(Character);
-        }
-
-        return Text;
-    }
-
-    static int CountCharacter(
-        string Text,
-        char Character,
-        bool ExactMatch = true)
-    {
-        short CharacterCount = 0;
-
-        if (!ExactMatch)
-        {
-            for (char& CurrentCharacter : Text)
-            {
-                if (
-                    CurrentCharacter == Character ||
-                    Character == ToggleCharacterCase(CurrentCharacter)
-                    )
-                {
-                    ++CharacterCount;
-                }
-            }
-        }
-        else
-        {
-            for (char& CurrentCharacter : Text)
-            {
-                if (CurrentCharacter == Character)
-                {
-                    ++CharacterCount;
-                }
-            }
-        }
-
-        return CharacterCount;
-    }
-
-    static short CountVowels(string Text)
-    {
-        short VowelCount = 0;
-
-        for (char& Character : Text)
-        {
-            if (IsVowel(Character))
-            {
-                ++VowelCount;
-            }
-        }
-
-        return VowelCount;
-    }
-
-    // =====================================================
-    // Static Conversion Functions
-    // =====================================================
+    
+    // === Conversion Functions ===
 
     static string ConvertToUpperCase(string Text)
     {
@@ -254,6 +226,11 @@ public:
         }
 
         return Text;
+    }
+
+    string ConvertToUpperCase()
+    {
+        return ConvertToUpperCase(_stringValue);
     }
 
     static string ConvertToLowerCase(string Text)
@@ -269,57 +246,12 @@ public:
         return Text;
     }
 
-    // =====================================================
-    // Static Printing Functions
-    // =====================================================
-
-    static void PrintVowels(string Text)
+    string ConvertToLowerCase()
     {
-        for (char& Character : Text)
-        {
-            if (IsVowel(Character))
-            {
-                cout << "   " << Character;
-            }
-        }
+        return ConvertToLowerCase(_stringValue);
     }
 
-    static void PrintFirstLetterOfEachWord(string Text)
-    {
-        Text = TrimAndNormalizeSpaces(Text);
-
-        if (!Text.empty())
-            cout << Text[0] << '\n';
-
-        for (int Index = 1; Index < Text.length() - 1; ++Index)
-        {
-            if (Text[Index] == ' ')
-            {
-                cout << Text[Index + 1] << '\n';
-            }
-        }
-    }
-
-    static void PrintWords(string Text)
-    {
-        Text = TrimAndNormalizeSpaces(Text);
-
-        for (short Index = 0; Index < Text.length(); Index++)
-        {
-            if (Text[Index] != ' ')
-            {
-                cout << Text[Index];
-            }
-            else
-            {
-                cout << endl;
-            }
-        }
-    }
-
-    // =====================================================
-    // Static Split / Join Functions
-    // =====================================================
+    // === Split / Join Functions ===
 
     static vector<string> Split(
         string Text,
@@ -347,7 +279,12 @@ public:
 
         return Words;
     }
-    
+
+    vector<string> Split(char Separator = ' ')
+    {
+        return Split(_stringValue, Separator);
+    }
+
     static string JoinStrings(
         vector<string>& Words,
         string Separator)
@@ -369,146 +306,21 @@ public:
         return Result;
     }
 
-    // =====================================================
-    // Member Counting Functions
-    // =====================================================
+    // === Replace Functions ===
 
-    short CountWords()
+    static string InvertCharacterCases(string Text)
     {
-        return CountWords(_stringValue);
+        for (char& Character : Text)
+        {
+            Character = ToggleCharacterCase(Character);
+        }
+
+        return Text;
     }
 
-    short CountLowercaseLetters()
-    {
-        return CountLowercaseLetters(_stringValue);
-    }
-
-    short CountUppercaseLetters()
-    {
-        return CountUppercaseLetters(_stringValue);
-    }
-
-    short CountCharacter(
-        char Character,
-        bool ExactMatch = true)
-    {
-        return CountCharacter(
-            _stringValue,
-            Character,
-            ExactMatch);
-    }
-
-    short CountVowels()
-    {
-        return CountVowels(_stringValue);
-    }
-
-    // =====================================================
-    // Member Conversion Functions
-    // =====================================================
-
-    string InvertCharacterCases()
-    {
+    string InvertCharacterCases() {
         return InvertCharacterCases(_stringValue);
     }
-
-    string ConvertToUpperCase()
-    {
-        return ConvertToUpperCase(_stringValue);
-    }
-
-    string ConvertToLowerCase()
-    {
-        return ConvertToLowerCase(_stringValue);
-    }
-
-    // =====================================================
-    // Member Trimming Functions
-    // =====================================================
-
-    string TrimAndNormalizeSpaces()
-    {
-        for (int Index = 0; Index < _stringValue.length() - 1;)
-        {
-            if (_stringValue[Index] == ' ' &&
-                _stringValue[Index + 1] == ' ')
-            {
-                _stringValue.erase(Index, 1);
-            }
-            else
-            {
-                Index++;
-            }
-        }
-
-        if (!_stringValue.empty() &&
-            _stringValue.front() == ' ')
-        {
-            _stringValue.erase(0, 1);
-        }
-
-        if (!_stringValue.empty() &&
-            _stringValue.back() == ' ')
-        {
-            _stringValue.pop_back();
-        }
-
-        return _stringValue;
-    }
-
-    string TrimLeft()
-    {
-        while (!_stringValue.empty() &&
-            _stringValue.front() == ' ')
-        {
-            _stringValue.erase(0, 1);
-        }
-
-        return _stringValue;
-    }
-
-    string TrimRight()
-    {
-        while (!_stringValue.empty() &&
-            _stringValue.back() == ' ')
-        {
-            _stringValue.pop_back();
-        }
-
-        return _stringValue;
-    }
-
-    // =====================================================
-    // Member Printing Functions
-    // =====================================================
-
-    void PrintVowels()
-    {
-        PrintVowels(_stringValue);
-    }
-
-    void PrintFirstLetterOfEachWord()
-    {
-        PrintFirstLetterOfEachWord(_stringValue);
-    }
-
-    void PrintWords()
-    {
-        PrintWords(_stringValue);
-    }
-
-    // =====================================================
-    // Member Split Function
-    // =====================================================
-
-    vector<string> Split(char Separator)
-    {
-        return Split(_stringValue, Separator);
-    }
-
-    // =====================================================
-    // Replace Functions
-    // =====================================================
 
     string ReplaceWord(
         string Text,
@@ -541,8 +353,147 @@ public:
 
         return JoinStrings(Words, " ");
     }
+
+    // =========== (4) Delete ===========
+
+    // === remove all punctuations ===
+    static string RemoveAllPunctuations(string Text) {
+
+        string NoPunctuations = "";
+
+        for (char ch : Text) {
+            if (!IsPunctuation(ch)) {
+                NoPunctuations += ch;
+            }
+        }
+
+        return NoPunctuations;
+    }
+    
+    // ==== (?) Computation Functions ===
+
+    static short CountWords(string Text)
+    {
+        Text = TrimAndNormalizeSpaces(Text);
+
+        short WordCount = 0;
+
+        for (char& Character : Text)
+        {
+            if (Character == ' ')
+            {
+                ++WordCount;
+            }
+        }
+
+        return WordCount + 1;
+    }
+
+    short CountWords()
+    {
+        return CountWords(_stringValue);
+    }
+
+    static short CountLowercaseLetters(string Text)
+    {
+        short LowercaseCount = 0;
+
+        for (char& Character : Text)
+        {
+            if (int(Character) >= 97 && int(Character) <= 122)
+            {
+                ++LowercaseCount;
+            }
+        }
+
+        return LowercaseCount;
+    }
+
+    short CountLowercaseLetters()
+    {
+        return CountLowercaseLetters(_stringValue);
+    }
+
+    static short CountUppercaseLetters(string Text)
+    {
+        short UppercaseCount = 0;
+
+        for (char& Character : Text)
+        {
+            if (int(Character) >= 65 && int(Character) <= 90)
+            {
+                ++UppercaseCount;
+            }
+        }
+
+        return UppercaseCount;
+    }
+
+    short CountUppercaseLetters()
+    {
+        return CountUppercaseLetters(_stringValue);
+    }
+
+    static int CountCharacter(
+        string Text,
+        char Character,
+        bool ExactMatch = true)
+    {
+        short CharacterCount = 0;
+
+        if (!ExactMatch)
+        {
+            Text = ConvertToLowerCase(Text);
+            for (char& CurrentCharacter : Text)
+            {
+                if (CurrentCharacter == Character)
+                {
+                    ++CharacterCount;
+                }
+            }
+        }
+        else
+        {
+            for (char& CurrentCharacter : Text)
+            {
+                if (CurrentCharacter == Character)
+                {
+                    ++CharacterCount;
+                }
+            }
+        }
+
+        return CharacterCount;
+    }
+
+    short CountCharacter(
+        char Character,
+        bool ExactMatch = true)
+    {
+        return CountCharacter(
+            _stringValue,
+            Character,
+            ExactMatch);
+    }
+
+    static short CountVowels(string Text)
+    {
+        short VowelCount = 0;
+
+        for (char& Character : Text)
+        {
+            if (IsVowel(Character))
+            {
+                ++VowelCount;
+            }
+        }
+
+        return VowelCount;
+    }
+
+    short CountVowels()
+    {
+        return CountVowels(_stringValue);
+    }
+
 };
-    // remove all punctuations
-
-
-    // string to record project

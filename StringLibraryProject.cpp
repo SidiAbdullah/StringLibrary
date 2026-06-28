@@ -6,14 +6,18 @@ using namespace std;
 
 int main()
 {
-    clsString str;
-    str.setValue("Sidi Abdullah Mohamed");
-    clsString str1("Ibrahim Abdullah");
+    clsString str1 = clsString("       Sidi    Abdullah       ");
+    clsString str2("Ibrahim Mohamed");
 
-    cout << "string1 = " << str.getValue() << endl;
-    cout << "string2 = " << str1.getValue() << endl;
+    //cout << str1.TrimAndNormalizeSpaces();
 
-    vector <string> v = { "sidi", "abdullah", "ibrahim" };
-    cout << clsString::joinVectorWords(v, "###") << endl;
+    vector <string> words = str1.Split();
+    for (string word : words) {
+        cout << word << " ";
+    }
+
+
+    //vector <string> v = { "sidi", "abdullah", "ibrahim" };
+    //cout << clsString::joinVectorWords(v, "###") << endl;
 }
 
